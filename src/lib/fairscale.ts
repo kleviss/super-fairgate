@@ -20,7 +20,7 @@ export interface FairScaleScore {
 }
 
 export async function getFullScore(wallet: string): Promise<FairScaleScore> {
-  const res = await fetch(`https://api.fairscale.xyz/score?wallet=${wallet}`, {
+  const res = await fetch(`https://api2.fairscale.xyz/score?wallet=${wallet}`, {
     headers: { fairkey: process.env.FAIRSCALE_API_KEY! },
   });
   if (!res.ok) throw new Error(`FairScale API error: ${res.status}`);
@@ -28,7 +28,7 @@ export async function getFullScore(wallet: string): Promise<FairScaleScore> {
 }
 
 export async function getFairScore(wallet: string): Promise<number> {
-  const res = await fetch(`https://api.fairscale.xyz/fairScore?wallet=${wallet}`, {
+  const res = await fetch(`https://api2.fairscale.xyz/fairScore?wallet=${wallet}`, {
     headers: { fairkey: process.env.FAIRSCALE_API_KEY! },
   });
   if (!res.ok) throw new Error(`FairScale API error: ${res.status}`);
@@ -37,7 +37,7 @@ export async function getFairScore(wallet: string): Promise<number> {
 }
 
 export async function getWalletScore(wallet: string): Promise<number> {
-  const res = await fetch(`https://api.fairscale.xyz/walletScore?wallet=${wallet}`, {
+  const res = await fetch(`https://api2.fairscale.xyz/walletScore?wallet=${wallet}`, {
     headers: { fairkey: process.env.FAIRSCALE_API_KEY! },
   });
   if (!res.ok) throw new Error(`FairScale API error: ${res.status}`);
