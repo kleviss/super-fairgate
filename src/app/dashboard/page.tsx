@@ -1,18 +1,28 @@
 "use client";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { useEffect } from "react";
 import { useFairScore } from "@/hooks/useFairScore";
 import { ScoreCard } from "@/components/ScoreCard";
 import { FeatureMetrics } from "@/components/FeatureMetrics";
 
 export default function Dashboard() {
   const { publicKey } = useWallet();
+  const { setVisible } = useWalletModal();
   const { score, loading, error } = useFairScore();
+
+  useEffect(() => {
+    if (!publicKey) setVisible(true);
+  }, [publicKey, setVisible]);
 
   if (!publicKey) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-3xl font-bold text-white mb-4">Dashboard</h1>
-        <p className="text-gray-400">Connect your Solana wallet to view your reputation score.</p>
+        <h1 className="text-3xl font-bold text-[#faf9f5] mb-4">Dashboard</h1>
+        <p className="text-[#b0aea5] mb-6">Connect your wallet to view your reputation score.</p>
+        <button onClick={() => setVisible(true)} className="bg-[#d97757] hover:bg-[#c4623f] text-[#141413] px-8 py-3 rounded-xl font-semibold transition-all">
+          Connect Wallet
+        </button>
       </div>
     );
   }
