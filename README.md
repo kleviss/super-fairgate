@@ -4,7 +4,7 @@ FairGate is a production-ready platform that uses [FairScale](https://fairscale.
 
 ## Live Demo
 
-**Platform URL:** *(deploy to Vercel and add URL here)*
+**Platform URL:** https://super-fairgate.vercel.app
 
 ## Problem
 
