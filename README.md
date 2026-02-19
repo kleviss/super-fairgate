@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FairGate — Reputation-Gated Access on Solana
 
-## Getting Started
+FairGate is a production-ready platform that uses [FairScale](https://fairscale.xyz/) reputation infrastructure to gate access to features, allocations, and community tiers based on on-chain reputation scores.
 
-First, run the development server:
+## Live Demo
+
+**Platform URL:** *(deploy to Vercel and add URL here)*
+
+## Problem
+
+Web3 platforms struggle to distinguish genuine users from bots and sybils. Token-gating is binary and doesn't reflect actual user quality. FairGate solves this by using FairScale's multi-dimensional reputation scoring to create a graduated access system.
+
+## How FairScore Is Used (Core Integration)
+
+FairScore is **central to every feature** in FairGate:
+
+| Feature | FairScore Role | Endpoint Used |
+|---------|---------------|---------------|
+| Dashboard | Displays full score breakdown with badges and on-chain metrics | `GET /score` |
+| Feature Gating | Gates access to features based on tier thresholds | `GET /fairScore` |
+| Leaderboard | Compares wallet scores across users | `GET /score` |
+| Tier System | Bronze/Silver/Gold/Platinum determines all access levels | Derived from score |
+
+### Tier Thresholds
+
+| Tier | Score | Access |
+|------|-------|--------|
+| Bronze | 0–199 | Basic profile, public leaderboard |
+| Silver | 200–399 | Early access features, community channels |
+| Gold | 400–599 | Governance voting, premium analytics |
+| Platinum | 600+ | VIP allocations, priority support, all features |
+
+## Tech Stack
+
+- **Frontend:** Next.js 16, React 19, Tailwind CSS v4
+- **Auth:** Solana Wallet Adapter (Phantom, Solflare)
+- **Reputation:** FairScale API (all 3 endpoints)
+- **Deployment:** Vercel
+
+## Setup
 
 ```bash
+git clone <repo-url>
+cd fairgate
+cp .env.example .env.local
+# Add your FAIRSCALE_API_KEY from https://sales.fairscale.xyz/
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+|----------|-------------|
+| `FAIRSCALE_API_KEY` | API key from FairScale (required, server-side only) |
+| `NEXT_PUBLIC_SOLANA_RPC` | Solana RPC endpoint (defaults to mainnet) |
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── api/
+│   │   ├── score/route.ts    # Proxies FairScale /score endpoint
+│   │   └── gate/route.ts     # Reputation gate check endpoint
+│   ├── dashboard/page.tsx     # User score dashboard
+│   ├── features/page.tsx      # Gated features showcase
+│   ├── leaderboard/page.tsx   # Wallet score comparison
+│   ├── docs/page.tsx          # Integration documentation
+│   ├── layout.tsx             # Root layout with wallet provider
+│   └── page.tsx               # Landing page
+├── components/
+│   ├── WalletProvider.tsx     # Solana wallet context
+│   ├── Navbar.tsx             # Navigation with wallet button
+│   ├── ScoreCard.tsx          # FairScore display card
+│   ├── GatedFeature.tsx       # Reputation-gated wrapper component
+│   └── FeatureMetrics.tsx     # On-chain metrics grid
+├── hooks/
+│   ├── useFairScore.ts        # Hook for fetching full score
+│   └── useGateCheck.ts        # Hook for checking feature access
+└── lib/
+    └── fairscale.ts           # FairScale API client
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Business Model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Target Audience:** Solana projects needing sybil-resistant access control for launches, DAOs, and communities.
 
-## Deploy on Vercel
+**Revenue Paths:**
+1. **SaaS Tier** — Projects pay to embed FairGate's gating widget
+2. **Premium Features** — Advanced analytics for Gold/Platinum users
+3. **Launch Partnerships** — Revenue share on reputation-gated token launches
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Go-to-Market:**
+- First 100 users: Solana Discord communities, CT engagement
+- First 1,000: Integrations with 2-3 launchpads as gating provider
+- First 10,000: Self-serve dashboard for any project to add reputation gates
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Team
+
+*(Add team member names, roles, contact info, and previous experience here)*
+
+## Links
+
+- **FairScale API:** https://sales.fairscale.xyz/
+- **API Docs:** https://docs.fairscale.xyz/
+- **FairScale Twitter:** https://x.com/fairscalexyz
+- **FairScale Telegram:** https://t.me/+WQlko_c5blJhN2E0
+
+## License
+
+MIT

@@ -1,65 +1,64 @@
-import Image from "next/image";
+"use client";
+import Link from "next/link";
+
+const TIERS = [
+  { name: "Bronze", range: "0–199", color: "from-amber-700 to-amber-900", perks: ["Basic profile", "Public leaderboard"] },
+  { name: "Silver", range: "200–399", color: "from-gray-300 to-gray-500", perks: ["Early access features", "Community channels"] },
+  { name: "Gold", range: "400–599", color: "from-yellow-400 to-yellow-600", perks: ["Governance voting", "Premium analytics"] },
+  { name: "Platinum", range: "600+", color: "from-purple-300 to-purple-500", perks: ["VIP allocations", "Priority support", "All features"] },
+];
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="max-w-6xl mx-auto px-4 py-16">
+      <section className="text-center mb-20">
+        <h1 className="text-5xl font-bold text-white mb-4">
+          Reputation-Gated Access on <span className="text-purple-400">Solana</span>
+        </h1>
+        <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
+          FairGate uses FairScale reputation scores to unlock tiers, allocations, and features.
+          Connect your wallet to see where you stand.
+        </p>
+        <Link href="/dashboard" className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition">
+          Launch App
+        </Link>
+      </section>
+
+      <section className="mb-20">
+        <h2 className="text-2xl font-bold text-white text-center mb-8">Reputation Tiers</h2>
+        <div className="grid md:grid-cols-4 gap-4">
+          {TIERS.map((t) => (
+            <div key={t.name} className={`rounded-xl bg-gradient-to-br ${t.color} p-[2px]`}>
+              <div className="rounded-xl bg-gray-950 p-5 h-full">
+                <h3 className="text-white font-bold text-lg">{t.name}</h3>
+                <p className="text-gray-400 text-sm mb-3">Score: {t.range}</p>
+                <ul className="space-y-1">
+                  {t.perks.map((p) => (
+                    <li key={p} className="text-gray-300 text-sm">+ {p}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section className="text-center">
+        <h2 className="text-2xl font-bold text-white mb-4">How It Works</h2>
+        <div className="grid md:grid-cols-3 gap-6 text-left">
+          {[
+            { step: "1", title: "Connect Wallet", desc: "Link your Solana wallet to pull your on-chain history." },
+            { step: "2", title: "Get Your FairScore", desc: "FairScale analyzes transactions, holdings, and social signals." },
+            { step: "3", title: "Unlock Features", desc: "Your tier determines what you can access — from early features to VIP allocations." },
+          ].map((s) => (
+            <div key={s.step} className="bg-white/5 rounded-xl p-6">
+              <div className="text-purple-400 font-bold text-2xl mb-2">{s.step}</div>
+              <h3 className="text-white font-semibold mb-1">{s.title}</h3>
+              <p className="text-gray-400 text-sm">{s.desc}</p>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
     </div>
   );
 }
